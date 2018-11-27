@@ -2,19 +2,18 @@ import React, { Component } from 'react';
 import { withStyles } from '@material-ui/core/styles';
 import BottomNavigation from '@material-ui/core/BottomNavigation';
 import BottomNavigationAction from '@material-ui/core/BottomNavigationAction';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { library } from '@fortawesome/fontawesome-svg-core';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faFacebook, faTwitter, faInstagram} from '@fortawesome/free-brands-svg-icons'
 
+library.add(faFacebook, faTwitter, faInstagram)
 const styles = theme => ({
-  // link: {
-  //   color: 'white',
-  //   textDecoration: 'none',
-  // },
   bottomBar: {
-    backgroundColor: '#3f51b5',
-    height: '3vw',
-    position: 'fixed',
+    position: 'sticky',
     bottom: 0,
-    width: '100%',
+    minHeight: '2vh',
+    backgroundColor: '#3f51b5',
+    zIndex: 1,
   },
   linkRoot: {
     color: '#c8ccd6',
@@ -38,7 +37,6 @@ class Footer extends Component {
   render() {
     const { classes } = this.props;
     return (
-      <div >
         <BottomNavigation className={classes.bottomBar}>
             <BottomNavigationAction
               classes={{ root: classes.linkRoot, selected: classes.linkSelected }}
@@ -62,7 +60,6 @@ class Footer extends Component {
               component="a" href="https://www.instagram.com/pixabay" target="_blank"
             />            
         </BottomNavigation>
-      </div>
     );
   }
 }

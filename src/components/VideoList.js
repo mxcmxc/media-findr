@@ -16,16 +16,13 @@ import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import PlayArrowIcon from '@material-ui/icons/PlayArrow';
 
-
 const styles = theme => ({
-  root: {
+  container: {
     display: 'flex',
     flexWrap: 'wrap',
     justifyContent: 'space-around',
-    overflow: 'hidden',
     backgroundColor: '#f7f8fa',
-    paddingTop: '3.5vw',
-    paddingBottom: '3.5vw',
+    padding: '1em',
   },
   playIcon: {
     backgroundColor: '#f50057',
@@ -50,12 +47,12 @@ const styles = theme => ({
 class VideoList extends Component {
   state = {
     open: false,
-    currentVid: '', // placeholder for selected image to load inside Dialog
+    currentVid: '',
     currentVidPageUrl: '',
     currentVidDownloads: '',
     currentVidFavorites: ''
   }
-
+  
   handleOpen = (vid) => {
     this.setState({ 
       open: true, 
@@ -74,11 +71,11 @@ class VideoList extends Component {
 
   render() {
     let videoListContent;
-    const { videos, classes } = this.props;
+    const { classes, videos } = this.props;
 
     if(videos) {
       videoListContent = (
-        <div className={classes.root}>
+        <div className={classes.container}>
           <GridList cols={3}>
             {videos.map(vid => (
               <GridListTile key={vid.id} >

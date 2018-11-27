@@ -16,31 +16,28 @@ import DialogActions from '@material-ui/core/DialogActions';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 
-
 const styles = theme => ({
-  root: {
+  container: {
     display: 'flex',
     flexWrap: 'wrap',
     justifyContent: 'space-around',
-    overflow: 'hidden',
     backgroundColor: '#f7f8fa',
-    paddingTop: '3.5vw',
-    paddingBottom: '3.5vw',
+    padding: '1em',
   },
-    iconMargin: {
-      marginRight: `${theme.spacing.unit * 0.02}em`,
-    },
+  iconMargin: {
+    marginRight: `${theme.spacing.unit * 0.02}em`,
+  },
 });
 
 class ImageList extends Component {
   state = {
     open: false,
-    currentImg: '', // placeholder for selected image to load inside Dialog
+    currentImg: '',
     currentImgPageUrl: '',
     currentImgDownloads: '',
     currentImgFavorites: ''
   }
-
+  
   handleOpen = (img) => {
     this.setState({ 
       open: true, 
@@ -57,13 +54,15 @@ class ImageList extends Component {
     });
   };
 
+
   render() {
     let imageListContent;
-    const { images, classes } = this.props;
-    
+    const { classes, images } = this.props;
+
+
     if(images) {
       imageListContent = (
-        <div className={classes.root}>
+        <div className={classes.container}>
           <GridList cols={3}>
             {images.map(img => (
               <GridListTile key={img.id} >

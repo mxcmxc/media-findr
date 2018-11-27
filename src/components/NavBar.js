@@ -1,19 +1,26 @@
 import React, { Component } from 'react';
 import { withStyles } from '@material-ui/core/styles';
+import {Link} from 'react-router-dom';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
-import Typography from '@material-ui/core/Typography';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
-import {Link} from 'react-router-dom';
 
 
 const styles = theme => ({
   topBar: {
-    position: 'fixed',
+    position: 'sticky',
     top: 0,
-    height: '3vw',
+    minHeight: '3vh',
     justifyContent: 'center',
+    zIndex: 1,
+  },
+  logo: {
+    fontFamily: '"Roboto", "Helvetica", "Arial", "sans-serif"',
+    fontWeight: 500,
+    color: 'inherit',
+    textDecoration: 'none',
+    cursor: 'pointer',
   },
   grow: {
     flexGrow: 1,
@@ -21,6 +28,7 @@ const styles = theme => ({
   tabRoot: {
     fontWeight: theme.typography.fontWeightRegular,
     textAlign: 'center',
+    textTransform: 'capitalize',
     '&:hover': {
       color: '#fff',
       opacity: 1,
@@ -53,12 +61,9 @@ class NavBar extends Component {
     const { classes } = this.props;
     
     return (
-      <div >
         <AppBar className={classes.topBar}>
           <Toolbar>
-            <Typography variant="h6" color="inherit" >
-              Media Findr
-            </Typography>
+            <Link to="/" className={classes.logo}>MEDIA FINDR</Link>
             <div className={classes.grow}></div>
               <Tabs 
                 value={this.state.value} 
@@ -70,22 +75,19 @@ class NavBar extends Component {
                   classes={{ root: classes.tabRoot, selected: classes.tabSelected }}
                   label="Images" 
                   component={Link} 
-                  to="/" />
+                  to="/images" />
                 <Tab 
                   disableRipple
                   classes={{ root: classes.tabRoot, selected: classes.tabSelected }}
                   label="Videos" 
                   component={Link} 
-                  to="/videos/" 
+                  to="/videos" 
                 />
               </Tabs>
           </Toolbar>
         </AppBar>           
-      </div>
     );
   }
 }
 
 export default withStyles(styles)(NavBar);
-
-    
