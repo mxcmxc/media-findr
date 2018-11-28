@@ -81,7 +81,7 @@ class SearchBar extends Component {
     });
 
     if(this.state.mediaType === 'images') {
-      fetch(`${API_URL_IMG}/?key=${API_KEY}&q=${this.state.searchText}&image_type=photo&per_page=${this.state.amount}&safesearch=true`)
+      fetch(`${API_URL_IMG}/?key=${API_KEY}&q=${this.state.searchText}&image_type=all&per_page=${this.state.amount}&safesearch=true`)
         .then(res => {
           if(res.ok) {
             return res.json();

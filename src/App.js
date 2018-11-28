@@ -28,7 +28,7 @@ class App extends Component {
   }
 
   loadImages = () => {
-    fetch(`${API_URL_IMG}?key=${API_KEY}&image_type=photo&editors_choice=true&safesearch=true`)
+    fetch(`${API_URL_IMG}?key=${API_KEY}&image_type=all&editors_choice=true&safesearch=true`)
       .then(res => {
         if(res.ok) {
           return res.json();
