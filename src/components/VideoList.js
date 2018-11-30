@@ -15,6 +15,7 @@ import DialogActions from '@material-ui/core/DialogActions';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import PlayArrowIcon from '@material-ui/icons/PlayArrow';
+import Pagination from './Pagination/Pagination';
 
 const styles = theme => ({
   container: {
@@ -70,41 +71,48 @@ class VideoList extends Component {
   };
 
   render() {
+    const { classes, videos, pageOfItems, onChangePage, location } = this.props;
     let videoListContent;
-    const { classes, videos } = this.props;
 
     if(videos) {
       videoListContent = (
         <div className={classes.container}>
           <GridList cols={3}>
-            {videos.map(vid => (
-              <GridListTile key={vid.id} >
-                <video 
-                  className={classes.cover}
-                  poster={`https://i.vimeocdn.com/video/${vid.picture_id}`} 
-                >
-                </video>
+            {pageOfItems.map(vid => {
+              return (
+                <GridListTile key={vid.id} >
+                  <video 
+                    className={classes.cover}
+                    poster={`https://i.vimeocdn.com/video/${vid.picture_id}`} 
+                  >
+                  </video>
 
-                <GridListTileBar
-                  title={
-                    <span>
-                      <strong>{vid.user}</strong>
-                    </span>
-                  }
-                  subtitle={
-                    <span>
-                      Tags: {vid.tags}
-                    </span>              
-                  }
-                  actionIcon={
-                    <IconButton onClick={() => this.handleOpen(vid)}>
-                      <PlayArrowIcon color="secondary" className={classes.playIcon} />
-                    </IconButton>
-                  }       
-              />
-              </GridListTile>
-            ))}
+                  <GridListTileBar
+                    title={
+                      <span>
+                        <strong>{vid.user}</strong>
+                      </span>
+                    }
+                    subtitle={
+                      <span>
+                        Tags: {vid.tags}
+                      </span>              
+                    }
+                    actionIcon={
+                      <IconButton onClick={() => this.handleOpen(vid)}>
+                        <PlayArrowIcon color="secondary" className={classes.playIcon} />
+                      </IconButton>
+                    }       
+                />
+                </GridListTile>
+              )
+            })}
           </GridList>
+          <Pagination
+            videos={videos}
+            onChangePage={onChangePage}
+            location={location}
+          />
         </div>
       )
     } else {

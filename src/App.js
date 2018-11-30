@@ -17,9 +17,10 @@ class App extends Component {
     isLoading: false,
     error: null,
     mediaType: '',
-    amount: 15, 
+    // amount: 200, 
     images: [],
-    videos: []
+    videos: [],
+    pageOfItems: [],
   }
 
   componentDidMount() {
@@ -27,8 +28,15 @@ class App extends Component {
     this.loadVideos()
   }
 
+  onChangePage = (pageOfItems) => {
+    // update state with new page of school items
+    this.setState({ 
+      pageOfItems: pageOfItems, 
+    });
+  }
+
   loadImages = () => {
-    fetch(`${API_URL_IMG}?key=${API_KEY}&image_type=all&editors_choice=true&safesearch=true`)
+    fetch(`${API_URL_IMG}?key=${API_KEY}&image_type=all&page=1&per_page=200&safesearch=true`)
       .then(res => {
         if(res.ok) {
           return res.json();
@@ -46,8 +54,9 @@ class App extends Component {
       }));
   }
 
+
   loadVideos = () => {
-    fetch(`${API_URL_VID}?key=${API_KEY}&video_type=all&editors_choice=true&safesearch=true`)
+    fetch(`${API_URL_VID}?key=${API_KEY}&video_type=all&page=1&per_page=200&safesearch=true`)
       .then(res => {
         if(res.ok) {
           return res.json();
@@ -64,21 +73,26 @@ class App extends Component {
         isLoading: false,
       }));
   }
-
+  
   render() {
 
     return (
       <div>
         <NavBar/>
-        <SearchBar />
+        {/* <SearchBar 
+          handleChangePage={this.handleChangePage} 
+          handleChangeRowsPerPage={this.handleChangeRowsPerPage} 
+        /> */}
           <Switch>
             <Route exact path='/' component={HomePage} />
             <Route 
               path='/images' 
-              render={ (props) => <ImageList images={this.state.images} />} />
+              // component={ImageList}
+              render={ (props) => <ImageList images={this.state.images} onChangePage={this.onChangePage} pageOfItems={this.state.pageOfItems} {...props} /> }
+            />
             <Route 
-              path='/videos' 
-              render={ (props) => <VideoList videos={this.state.videos} />} />
+               path='/videos' 
+               render={ (props) => <VideoList videos={this.state.videos} onChangePage={this.onChangePage} pageOfItems={this.state.pageOfItems} {...props} /> }
             />
             <Route path='*' render={ () => <Redirect to='/' /> } /> 
           </Switch>

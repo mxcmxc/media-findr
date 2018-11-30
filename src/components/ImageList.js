@@ -15,6 +15,8 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogActions from '@material-ui/core/DialogActions';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
+import Pagination from './Pagination/Pagination';
+
 
 const styles = theme => ({
   container: {
@@ -35,9 +37,9 @@ class ImageList extends Component {
     currentImg: '',
     currentImgPageUrl: '',
     currentImgDownloads: '',
-    currentImgFavorites: ''
+    currentImgFavorites: '',
   }
-  
+    
   handleOpen = (img) => {
     this.setState({ 
       open: true, 
@@ -54,39 +56,44 @@ class ImageList extends Component {
     });
   };
 
-
   render() {
+    const { classes, images, pageOfItems, onChangePage, location } = this.props;
     let imageListContent;
-    const { classes, images } = this.props;
-
-
+    
     if(images) {
       imageListContent = (
         <div className={classes.container}>
           <GridList cols={3}>
-            {images.map(img => (
-              <GridListTile key={img.id} >
-                <img src={img.largeImageURL} alt="img-url" />
-                <GridListTileBar
-                  title={
-                    <span>
-                      Tags: {img.tags}
-                    </span>
-                  }
-                  subtitle={
-                    <span>
-                      by: <strong>{img.user}</strong>
-                    </span>              
-                  }
-                  actionIcon={
-                    <IconButton onClick={() => this.handleOpen(img)}>
-                      <ZoomIn color="secondary" />
-                    </IconButton>
-                  }       
-              />
-              </GridListTile>
-            ))}
+            {pageOfItems.map( img => {
+              return (
+                <GridListTile key={img.id} >
+                  <img src={img.largeImageURL} alt="img-url" />
+                  <GridListTileBar
+                    title={
+                      <span>
+                        Tags: {img.tags}
+                      </span>
+                    }
+                    subtitle={
+                      <span>
+                        by: <strong>{img.user}</strong>
+                      </span>              
+                    }
+                    actionIcon={
+                      <IconButton onClick={() => this.handleOpen(img)}>
+                        <ZoomIn color="secondary" />
+                      </IconButton>
+                    }       
+                />
+                </GridListTile>
+              )
+            })}
           </GridList>
+          <Pagination
+            images={images}
+            onChangePage={onChangePage}
+            location={location}
+          />
         </div>
       )
     } else {
@@ -94,7 +101,7 @@ class ImageList extends Component {
     }
 
     return (
-      <div>
+      <div>       
         {imageListContent}
 
         <Dialog
