@@ -4,40 +4,46 @@ import Fade from '@material-ui/core/Fade';
 
 const styles = theme => ({
   background: {
-    backgroundImage: 'url("https://images.pexels.com/photos/956999/milky-way-starry-sky-night-sky-star-956999.jpeg")',
-    backgroundSize: 'cover',
-    height: '70vh',
+    backgroundColor: '#111',
+    height: '75vh',
   },
   textContainer: {
     color: '#fff',
     display: 'flex',
     width: '90%',
     margin: '0 auto',
-    justifyContent: 'center',
-    paddingTop: '3vh',
+    justifyContent: 'space-evenly',
   },
-  textMargin: {
-    marginLeft: '5.5px',
+  text: {
+    fontFamily: 'Lato',
+    fontSize: '5em',
+    textShadow: '0 0 0.1em #fff, 0 0 0.2em #fff, 0 0 0.3em #fff, 0 0 0.4em #f7f,0 0 0.6em #f0f, 0 0 0.8em #f0f, 0 0 1.0em #f0f, 0 0 1.2em #f0f',
+    color: '#fff',
   }
 });
 
 class HomePage extends Component {
   
-
   render() {
     const { classes } = this.props;
 
     return (
-      <div className={classes.background}>    
+      <div className={classes.background}>          
         <div className={classes.textContainer}>    
           <Fade in={true} timeout={2000} >
-            <h2 className={classes.textMargin}>Stunning</h2>
+            <h2 className={classes.text}>Stunning</h2>
           </Fade>
           <Fade in={true} timeout={4000} >
-            <h2 className={classes.textMargin}>Free</h2>
+            <h2 className={classes.text}>Free</h2>
           </Fade>
           <Fade in={true} timeout={6000} >
-            <h2 className={classes.textMargin}>Images and Videos</h2>
+            <h2 className={classes.text}>Images</h2>
+          </Fade>
+          <Fade in={true} timeout={8000} >
+            <h2 className={classes.text}>and</h2>
+          </Fade>
+          <Fade in={true} timeout={10000} >
+            <h2 className={classes.text}>Videos</h2>
           </Fade>
         </div>
       </div>
