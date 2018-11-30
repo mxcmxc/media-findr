@@ -1,0 +1,31 @@
+.pagination {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  list-style-type: none;
+  margin-top: 7vh;
+  padding: 0 2em;
+  background-color: #000;
+  border-radius: 20px;
+}
+
+.page-numbers {
+  display: block;
+  padding: 0 2em;
+  -webkit-transition: 400ms ease;
+  transition: 400ms ease;
+  color: #fff;
+  letter-spacing: 0.1em;
+  line-height: 3em;
+}
+
+.page-numbers:hover, .page-numbers.current {
+  background-color: #eee;
+  color: #2b2b2b;
+}
+
+.page-numbers.prev:hover, .page-numbers.next:hover {
+  background-color: transparent;
+  color: #eee;
+}
+/*# sourceMappingURL=Pagination.css.map */
