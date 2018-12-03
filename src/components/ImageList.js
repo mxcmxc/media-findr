@@ -15,7 +15,7 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogActions from '@material-ui/core/DialogActions';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
-import Pagination from './Pagination/Pagination';
+import Pagination from './Pagination';
 
 
 const styles = theme => ({

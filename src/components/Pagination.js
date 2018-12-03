@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import './Pagination.css';
+import { withStyles } from '@material-ui/core/styles';
 import IconButton from '@material-ui/core/IconButton';
+import Button from '@material-ui/core/Button';
 import FirstPage from '@material-ui/icons/FirstPage';
 import LastPage from '@material-ui/icons/LastPage';
 import SkipNext from '@material-ui/icons/SkipNext';
@@ -19,6 +20,36 @@ const defaultProps = {
 	initialPage: 1,
 	pageSize: 12
 }
+
+const styles = theme => ({
+	pagination: {
+		display: 'flex',
+		listStyleType: 'none',
+		marginTop: '7vh',
+		padding: '0 2em',
+		backgroundColor: '#000',
+		borderRadius: '20px',
+		alignItems: 'baseline',
+	},
+	pageNumbers: {
+		display: 'block',
+		padding: '0 2em',
+		transition: '400ms ease',
+		color: '#fff',
+		letterSpacing: '0.1em',
+		lineHeight: '3em',
+
+		'&:hover, &.current': {
+			backgroundColor: '#eee',
+			color: '#2b2b2b',
+		},
+
+		'&.prev:hover, &.next:hover': {
+			backgroundColor: 'transparent',
+			color: '#eee',
+		},
+	},
+})
   
 
 class Pagination extends Component {
@@ -144,7 +175,7 @@ class Pagination extends Component {
 	}
  
 	render() {
-
+		const {classes} = this.props
 		let { pager } = this.state;
 		let imagePagination;
 		let videoPagination;
@@ -156,42 +187,34 @@ class Pagination extends Component {
 
 		if(this.props.location.pathname === '/images') {
 			imagePagination = (
-				<div className="pagination-wrapper">
-					<ul className="pagination">
+				<div className={classes.paginationWrapper}>
+					<ul className={classes.pagination}>
 						<li className={pager.currentPage === 1 ? 'disabled' : ''}>
-							<a className="page-numbers" onClick={() => this.setImagePage(1)}>
-								<IconButton color="inherit" aria-label="navigate_next">
-									<FirstPage/> 
-								</IconButton>
-							</a>
+							<IconButton color="inherit" aria-label="navigate_next">
+								<FirstPage className={classes.pageNumbers} onClick={() => this.setImagePage(1)}/> 
+							</IconButton>
 						</li>
 						<li className={pager.currentPage === 1 ? 'disabled' : ''}>
-							<a className="page-numbers" onClick={() => this.setImagePage(pager.currentPage - 1)}> 
-								<IconButton color="inherit" aria-label="skip_previous">
-									<SkipPrevious/> 
-								</IconButton>
-							</a>
+							<IconButton color="inherit" aria-label="skip_previous">
+								<SkipPrevious className={classes.pageNumbers} onClick={() => this.setImagePage(pager.currentPage - 1)}/> 
+							</IconButton>
 						</li>
 
 						{pager.pages.map((page, index) =>
-								<li key={index} className={pager.currentPage === page ? 'active' : ''}>
-									<a className="page-numbers" onClick={() => this.setImagePage(page)}>{page}</a>
-								</li>
+							<li key={index} className={pager.currentPage === page ? 'active' : ''} >
+								<Button className={classes.pageNumbers} onClick={() => this.setImagePage(page)}>{page}</Button>
+							</li>
 						)}
 
 						<li className={pager.currentPage === pager.totalPages ? 'disabled' : ''}>
-							<a className="page-numbers" onClick={() => this.setImagePage(pager.currentPage + 1)}> 
-								<IconButton color="inherit" aria-label="skip_next">
-									<SkipNext/> 
-								</IconButton>
-							</a>
+							<IconButton color="inherit" aria-label="skip_next">
+								<SkipNext className={classes.pageNumbers} onClick={() => this.setImagePage(pager.currentPage + 1)}/> 
+							</IconButton>
 						</li>
 						<li className={pager.currentPage === pager.totalPages ? 'disabled' : ''}>
-							<a className="page-numbers" onClick={() => this.setImagePage(pager.totalPages)}>
-								<IconButton color="inherit" aria-label="page_last">
-									<LastPage/> 
-								</IconButton>
-							</a>
+							<IconButton color="inherit" aria-label="page_last">
+								<LastPage className={classes.pageNumbers} onClick={() => this.setImagePage(pager.totalPages)}/> 
+							</IconButton>
 						</li>
 					</ul>
 				</div>
@@ -199,42 +222,34 @@ class Pagination extends Component {
 		}
 		else if (this.props.location.pathname === '/videos') {
 			videoPagination = (
-				<div className="pagination-wrapper">
-					<ul className="pagination">
+				<div className={classes.paginationWrapper}>
+					<ul className={classes.pagination}>
 						<li className={pager.currentPage === 1 ? 'disabled' : ''}>
-							<a className="page-numbers" onClick={() => this.setVideoPage(1)}>
-								<IconButton color="inherit" aria-label="navigate_next">
-									<FirstPage/> 
-								</IconButton>
-							</a>
+							<IconButton color="inherit" aria-label="navigate_next">
+								<FirstPage className={classes.pageNumbers} onClick={() => this.setVideoPage(1)}/> 
+							</IconButton>
 						</li>
 						<li className={pager.currentPage === 1 ? 'disabled' : ''}>
-							<a className="page-numbers" onClick={() => this.setVideoPage(pager.currentPage - 1)}> 
-								<IconButton color="inherit" aria-label="skip_previous">
-									<SkipPrevious/> 
-								</IconButton>
-							</a>
+							<IconButton color="inherit" aria-label="skip_previous">
+								<SkipPrevious className={classes.pageNumbers} onClick={() => this.setVideoPage(pager.currentPage - 1)}/> 
+							</IconButton>
 						</li>
 
 						{pager.pages.map((page, index) =>
 								<li key={index} className={pager.currentPage === page ? 'active' : ''}>
-									<a className="page-numbers" onClick={() => this.setVideoPage(page)}>{page}</a>
+									<Button className={classes.pageNumbers} onClick={() => this.setVideoPage(page)}>{page}</Button>
 								</li>
 						)}
 
 						<li className={pager.currentPage === pager.totalPages ? 'disabled' : ''}>
-							<a className="page-numbers" onClick={() => this.setVideoPage(pager.currentPage + 1)}> 
-								<IconButton color="inherit" aria-label="skip_next">
-									<SkipNext/> 
-								</IconButton>
-							</a>
+							<IconButton color="inherit" aria-label="skip_next">
+								<SkipNext className={classes.pageNumbers} onClick={() => this.setVideoPage(pager.currentPage + 1)}/> 
+							</IconButton>
 						</li>
 						<li className={pager.currentPage === pager.totalPages ? 'disabled' : ''}>
-							<a className="page-numbers" onClick={() => this.setVideoPage(pager.totalPages)}>
-								<IconButton color="inherit" aria-label="page_last">
-									<LastPage/> 
-								</IconButton>
-							</a>
+							<IconButton color="inherit" aria-label="page_last">
+								<LastPage className={classes.pageNumbers} onClick={() => this.setVideoPage(pager.totalPages)}/> 
+							</IconButton>
 						</li>
 					</ul>
 				</div>
@@ -253,6 +268,6 @@ class Pagination extends Component {
 Pagination.propTypes = propTypes;
 Pagination.defaultProps = defaultProps;
 
-export default Pagination;
+export default withStyles(styles)(Pagination);
 
 // credit: https://github.com/cornflourblue/react-pagination-example
