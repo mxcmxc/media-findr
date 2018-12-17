@@ -16,8 +16,6 @@ class App extends Component {
   state = {
     isLoading: false,
     error: null,
-    mediaType: '',
-    // amount: 200, 
     images: [],
     videos: [],
     pageOfItems: [],
@@ -29,7 +27,7 @@ class App extends Component {
   }
 
   onChangePage = (pageOfItems) => {
-    // update state with new page of school items
+    // update state with new page of media items
     this.setState({ 
       pageOfItems: pageOfItems, 
     });
@@ -79,15 +77,11 @@ class App extends Component {
     return (
       <div>
         <NavBar/>
-        {/* <SearchBar 
-          handleChangePage={this.handleChangePage} 
-          handleChangeRowsPerPage={this.handleChangeRowsPerPage} 
-        /> */}
+        <SearchBar onChangePage={this.onChangePage} pageOfItems={this.state.pageOfItems}/>
           <Switch>
             <Route exact path='/' component={HomePage} />
             <Route 
               path='/images' 
-              // component={ImageList}
               render={ (props) => <ImageList images={this.state.images} onChangePage={this.onChangePage} pageOfItems={this.state.pageOfItems} {...props} /> }
             />
             <Route 

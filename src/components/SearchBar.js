@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
+import { withRouter} from 'react-router-dom'
 import { withStyles } from '@material-ui/core/styles';
 import SearchIcon from '@material-ui/icons/Search';
 import InputBase from '@material-ui/core/InputBase';
-import InputLabel from '@material-ui/core/InputLabel';
 import ImageList from './ImageList';
 import VideoList from './VideoList';
 import FormControl from '@material-ui/core/FormControl';
@@ -60,12 +60,64 @@ class SearchBar extends Component {
   state = {
     isLoading: false,
     error: null,
-    mediaType: 'images',
-    amount: 15, 
+    mediaType: '',
     searchText: '',
     images: [],
-    videos: []
+    videos: [],
+    pageOfItems: [],
   }
+
+  searchImages = () => {
+    this.setState({
+      isLoading: true,
+    });
+
+    fetch(`${API_URL_IMG}?key=${API_KEY}&q=${this.state.searchText}&image_type=all&page=1&per_page=200&safesearch=true`)
+      .then(res => {
+        if(res.ok) {
+          return res.json();
+        } else {
+          return new Error(res.statusText);
+        }
+      })
+      .then(data => this.setState(
+        { 
+          images: data.hits,
+          isLoading: false,
+          searchText: '',
+        }, () => this.props.history.push('/images')
+      ))
+      .catch(error => this.setState({
+        error,
+        isLoading: false
+      }));
+  }
+
+  searchVideos = () => {
+    this.setState({
+      isLoading: true,
+    });
+    fetch(`${API_URL_VID}?key=${API_KEY}&q=${this.state.searchText}&video_type=all&page=1&per_page=200&safesearch=true`)
+    .then(res => {
+      if(res.ok) {
+        return res.json();
+      } else {
+        throw new Error(res.statusText);
+      }
+    })
+    .then(data => this.setState(
+      { 
+        videos: data.hits,
+        isLoading: false,
+        searchText: '',
+      }, () => this.props.history.push('/videos')
+    ))
+    .catch(error => this.setState({
+      error,
+      isLoading: false
+    }));
+  } 
+
 
   handleChange = (evt) => {
     this.setState({
@@ -75,62 +127,17 @@ class SearchBar extends Component {
 
   handleSubmit = (evt) => {
     evt.preventDefault();
-
-    this.setState({
-      isLoading: true,
-    });
-
-    if(this.state.mediaType === 'images') {
-      fetch(`${API_URL_IMG}/?key=${API_KEY}&q=${this.state.searchText}&image_type=all&per_page=${this.state.amount}&safesearch=true`)
-        .then(res => {
-          if(res.ok) {
-            return res.json();
-          } else {
-            throw new Error(res.statusText);
-          }
-        })
-        .then(data => this.setState({ 
-          images: data.hits,
-          isLoading: false,
-          searchText: '',
-        }))
-        .catch(error => this.setState({
-          error,
-          isLoading: false
-        }));
-    } 
-    else if(this.state.mediaType === 'videos') {
-      fetch(`${API_URL_VID}/?key=${API_KEY}&q=${this.state.searchText}&video_type=all&per_page=${this.state.amount}&safesearch=true`)
-        .then(res => {
-          if(res.ok) {
-            return res.json();
-          } else {
-            throw new Error(res.statusText);
-          }
-        })
-        .then(data => this.setState({ 
-          videos: data.hits,
-          isLoading: false,
-          searchText: '',
-        }))
-        .catch(error => this.setState({
-          error,
-          isLoading: false
-        }));
-      } 
-  };
-    
+    if (this.state.mediaType === 'images') {
+      this.searchImages();
+    }
+    else if (this.state.mediaType === 'videos') {
+      this.searchVideos()
+    }
+  }
+  
   render() {    
-    const { classes } = this.props;
-
-    if(this.state.isLoading) {
-      return <h1>Loading...</h1>
-    }
-    
-    if(this.state.error) {
-      return <h1>{this.state.error.message}</h1>
-    }
-
+    const { classes, onChangePage, pageOfItems, location} = this.props;
+  
     return (
       <div>
         <div className={classes.container}>
@@ -165,27 +172,6 @@ class SearchBar extends Component {
               </Select>
             </FormControl>
             
-            <FormControl className={classes.formControl}>
-              <InputLabel htmlFor="amount-simple">Items</InputLabel>
-              <Select
-                type='number'
-                name='amount'
-                value={this.state.amount}
-                onChange={this.handleChange}
-                inputProps={{
-                  name: 'amount',
-                  id: 'amount-simple',
-                }}
-              >
-                <MenuItem value="">
-                  <em>Select</em>
-                </MenuItem>
-                <MenuItem value={3}>3</MenuItem>
-                <MenuItem value={9}>9</MenuItem>
-                <MenuItem value={15}>15</MenuItem>
-                <MenuItem value={500}>All</MenuItem>    
-              </Select>
-            </FormControl>
             <Button 
               className={classes.searchButton} 
               variant="contained" 
@@ -198,16 +184,29 @@ class SearchBar extends Component {
           </form>
         </div>
 
-        {/* display ImageList component if array is not empty */}
-        {this.state.mediaType === 'images' && this.state.images.length > 0 ? (<ImageList images={this.state.images} />) : null}
-        
-        
-        {/* display VideoList component if array is not empty */}
-        {this.state.mediaType === 'videos' && this.state.videos.length > 0 ? (<VideoList videos={this.state.videos} />) : null}
+        {/* display ImageList component if array is not empty and chosen media is images */}
+        {this.state.mediaType === 'images' && this.state.images.length > 0  
+        ? (<ImageList 
+              images={this.state.images} 
+              onChangePage={onChangePage} 
+              pageOfItems={pageOfItems}
+              location={location}
+          />) 
+        : null}
+
+        {/* display VideoList component if array is not empty and chosen media is videos */}
+        {this.state.mediaType === 'videos' && this.state.videos.length > 0 
+        ? (<VideoList 
+              videos={this.state.videos} 
+              onChangePage={onChangePage} 
+              pageOfItems={pageOfItems}
+              location={location}
+          />) 
+        : null}
 
       </div>
     );
   }
 }
 
-export default withStyles(styles)(SearchBar);
+export default withRouter(withStyles(styles)(SearchBar));

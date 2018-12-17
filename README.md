@@ -24,5 +24,7 @@ Find images and videos using the PixaBay API.
 - `react-router-dom`
 
 ## Final Product
-<img src="README-images/single-page-app.png">
+<img src="README-images/image-results.png">
+<img src="README-images/video-results.png">
+<img src="README-images/play-video.png">
 

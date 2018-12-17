@@ -25,7 +25,7 @@ const styles = theme => ({
 	pagination: {
 		display: 'flex',
 		listStyleType: 'none',
-		marginTop: '7vh',
+		marginTop: '3vh',
 		padding: '0 2em',
 		backgroundColor: '#000',
 		borderRadius: '20px',
